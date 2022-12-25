@@ -1,0 +1,40 @@
+void main() {
+    int n = readInt();
+    int j = 0;
+    for (int i = 1; i < n; i = i + 1) {
+        for (int b = n - 1; b > i; b = b - 1) {
+            afficheEspace();
+        }
+        for (int c = 0; c < i; c = c + 1) {
+            afficheEtoile();
+        }
+        for (int t = i - 1; t > 0; t = t - 1) {
+            afficheEtoile();
+        }
+        nouvelleligne();
+    }
+}
+
+void afficheEtoile() {
+    print("*");
+}
+
+void afficheEspace() {
+    print(" ");
+}
+
+void nouvelleligne() {
+    println(" ");
+}
+
+void dessinerPlusieur(int n) {
+    for (int i = 0; i < n; i = i + 1) {
+        afficheEtoile();
+    }
+}
+
+void dessinerLigne(int j, int n) {
+    for (int a = 0; a < n; a = a + 1) {
+        afficheEspace();
+    }
+}

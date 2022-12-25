@@ -1,0 +1,16 @@
+void main() {}
+
+void remplissage(int[] source1, int[] source2, int[] target) {
+    int taille_source1 = source1.length;
+    for (int i = 0; i < source1.length && i < target.length; i++) {
+        target[i] = source1[i];
+    }
+    int taille_totale = taille_source1 + source2.length;
+
+    for (int j = 0; j < source2.length && taille_source1 + j < target.length; j++) {
+        target[taille_source1 + j] = source2[j];
+    }
+    for (int i = taille_totale; i < target.length; i++) {
+        target[i] = 0;
+    }
+}

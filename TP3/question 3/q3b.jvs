@@ -1,0 +1,16 @@
+void main() {}
+
+int[] tabMultiple(int[] t, int n) {
+    int[] tab = new int[t.length];
+    int j = 0;
+    for (int i = 0; i < t.length; i++) {
+        if (i % n == 0 && t[i] != 0) {
+            tab[j++] = t[i];
+        }
+    }
+    int[] tableau = new int[j];
+    for (int i = 0; i < j; i++) {
+        tableau[i] = tab[i];
+    }
+    return tableau;
+}

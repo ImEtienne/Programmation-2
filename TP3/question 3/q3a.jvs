@@ -1,0 +1,11 @@
+void main() {}
+
+int sommeMultiple(int[] t, int n) {
+    int somme = 0;
+    for (int i = 0; i < t.length; i++) {
+        if (i % n == 0) {
+            somme = somme + t[i];
+        }
+    }
+    return somme;
+}

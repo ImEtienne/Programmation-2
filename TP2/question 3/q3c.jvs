@@ -1,0 +1,7 @@
+void main() {}
+
+void echange(int[] tab, int i, int j) {
+    int echange = tab[i];
+    tab[i] = tab[j];
+    tab[j] = echange;
+}

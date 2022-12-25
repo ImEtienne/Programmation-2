@@ -1,0 +1,19 @@
+void main() {}
+
+boolean contientApres(int[] tab, int n, int i) {
+    for (int k = n; k < tab.length; k++) {
+        if (tab[k] == n && (k >= i)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+boolean doublons(int[] tab) {
+    for (int i = 0; i < tab.length; i++) {
+        if (contientApres(tab, tab[i], i + 1)) {
+            return true;
+        }
+    }
+    return false;
+}

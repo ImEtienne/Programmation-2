@@ -1,0 +1,7 @@
+void main() {}
+
+void augmente(int[] tab, int n) {
+    for (int i = 0; i < tab.length; i++) {
+        tab[i] = tab[i] + n;
+    }
+}

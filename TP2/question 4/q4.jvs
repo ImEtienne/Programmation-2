@@ -1,0 +1,14 @@
+void main() {
+    int[][] tab = new int[10][10];
+    transformeC(tab);
+}
+
+void transformeC(int[][] tab) {
+    for (int i = 0; i < tab.length; i++) {
+        int[] tab2 = new int[3];
+        for (int j = 0; j < tab[0].length; j++) {
+            tab2[j] = 0;
+        }
+        tab[i] = tab2;
+    }
+}

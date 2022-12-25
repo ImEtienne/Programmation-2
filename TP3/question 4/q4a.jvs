@@ -1,0 +1,10 @@
+void main() {}
+
+boolean contientApres(int[] tab, int n, int i) {
+    for (int j = 0; j < tab.length; j++) {
+        if (tab[j] == n && (j >= i)) {
+            return true;
+        }
+    }
+    return false;
+}

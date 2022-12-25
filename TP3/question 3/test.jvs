@@ -1,0 +1,57 @@
+void main() {
+    /* Declarations des variables */
+    int[] tab;
+    int taille;
+    int x;
+    int y;
+    int var;
+    int age;
+    /* Saisie des donnees */
+    taille = readInt(" Taille du tableau ");
+    tab = new int[taille];
+    for (int j = 0; j < taille; j++) {
+        tab[j] = readInt(" Element du Tableau ");
+    }
+    var = readInt(" Valeur pour rechercher ");
+    println("Le nombre recherche est : " + var);
+    x = readInt(" Nombre pour calculer ");
+    println(" La valeur de x est :" + x);
+    /* Calculer la valeur absolu */
+    x = valeurAbsolue(x);
+    println(" La valeur absolu de x est :" + x);
+    /* Calculer le nombre d'occurrence */
+    y = nbreOccurrence(tab, var);
+    println("Le nombre de repetition de " + var + " dans le tableau tab est: " + y);
+    /* Tester si la personne est majeure */
+    age = readInt("Ton Age?");
+    boolean b = estMajeur(age);
+    if (b) {
+        print("tu es Majeur !");
+    }
+}
+
+int valeurAbsolue(int x) {
+    if (x < 0) {
+        return (-x);
+    } else {
+        return x;
+    }
+}
+
+int nbreOccurrence(int[] tab, int var) {
+    int nbreOccurrence = 0;
+    for (int i = 0; i < tab.length; i++) {
+        if (var == tab[i]) {
+            nbreOccurrence++;
+        }
+    }
+    return nbreOccurrence;
+}
+
+boolean estMajeur(int age) {
+    if (age >= 18) {
+        return true;
+    } else {
+        return false;
+    }
+}

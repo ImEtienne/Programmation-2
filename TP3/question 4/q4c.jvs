@@ -1,0 +1,41 @@
+void main() {}
+
+boolean contientApres(int[] tab, int n, int i) {
+    for (int k = n; k < tab.length; k++) {
+        if (tab[k] == n && (k >= i)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+boolean doublons(int[] tab) {
+    for (int i = 0; i < tab.length; i++) {
+        if (contientApres(tab, tab[i], i + 1)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+boolean permutation(int[] tab1, int[] tab2) {
+    if (doublons(tab1) || doublons(tab2)) {
+        return false;
+    }
+    if (tab1.length != tab2.length) {
+        return false;
+    }
+    for (int i = 0; i < tab1.length; i++) {
+        boolean trouve = false;
+        for (int j = 0; j < tab1.length; j++) {
+            if (tab1[i] == tab2[j]) {
+                trouve = true;
+            }
+        }
+
+        if (!trouve) {
+            return false;
+        }
+    }
+    return true;
+}
