@@ -1,0 +1,37 @@
+void main() {
+    int n = 10;
+    int x = boucle3(n);
+    println(x);
+}
+/*
+int boucle1(int n) {
+    return boucle1(n);
+}
+
+int boucle2(int n) {
+    return boucle2(n - 1);
+}
+*/
+int boucle3(int n) {
+    if (n == 0) {
+        return 5;
+    } else {
+        return n + boucle3(n - 1);
+    }
+}
+
+int boucle4(int n) {
+    if (n <= 0) {
+        return 0;
+    } else {
+        return n + boucle4(n - 1);
+    }
+}
+
+int fact(int n) {
+    if (n == 0 || n == 1) {
+        return 1;
+    } else {
+        return n * fact(n - 1);
+    }
+}

@@ -1,0 +1,11 @@
+void main() {
+    int n = 4;
+    ligne(n);
+}
+
+void ligne(int n) {
+    if (n > 0) {
+        print("*");
+        ligne(n - 1);
+    }
+}

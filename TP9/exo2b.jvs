@@ -1,0 +1,12 @@
+void main() {}
+
+void triangle(int n) {
+    int i = 0;
+    if (n == 0 || n == i) {
+        print("*");
+    } else {
+        print("*");
+        triangle(i - 1);
+    }
+    println();
+}

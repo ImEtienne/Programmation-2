@@ -1,0 +1,63 @@
+void main() {
+    // Homer
+    Individu homer = new Individu();
+    homer.nom = "Simpson";
+    homer.prenom = "Homer";
+    // Marge
+    Individu marge = new Individu();
+    marge.nom = "Simpson";
+    marge.prenom = "Marge";
+    // Bart
+    Individu bart = new Individu();
+    bart.nom = "Simpson";
+    bart.prenom = "Bart";
+    bart.pere = homer;
+    bart.mere = marge;
+    // Lisa
+    Individu lisa = new Individu();
+    lisa.nom = "Simpson";
+    lisa.prenom = "lisa";
+    lisa.pere = homer;
+    lisa.mere = marge;
+    // maggie
+    Individu maggie = new Individu();
+    maggie.nom = "Simpson";
+    maggie.prenom = "maggie";
+    maggie.pere = homer;
+    maggie.mere = marge;
+    afficherFamille(Individu p);
+
+}
+
+class Individu {
+    String nom;
+    String prenom;
+    Individu pere;
+    Individu mere;
+}
+
+Individu[] creerFamilleSimpson(
+        Individu homer, Individu marge, Individu bart, Individu lisa, Individu maggie) {
+    Individu[] simpson = new Individu[5];
+    simpson[0] = homer;
+    simpson[1] = marge;
+    simpson[2] = bart;
+    simpson[3] = lisa;
+    simpson[4] = maggie;
+    return simpson;
+}
+
+void afficherIndividu(Individu p) {
+    println(p.nom);
+    println(p.prenom);
+    println(p.pere.nom);
+    println(p.pere.prenom);
+    println(p.mere.nom);
+    println(p.mere.prenom);
+}
+
+void afficherFamille(Individu[] p) {
+    for (int i = 0; i < p.length; i++) {
+        afficherIndividu(p[i]);
+    }
+}

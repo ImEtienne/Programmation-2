@@ -1,0 +1,35 @@
+void main() {}
+
+class Individu {
+    String nom;
+    String prenom;
+    Individu pere;
+    Individu mere;
+}
+
+Individu[] rechercherEnfants(Individu f, Individu[] tab) {
+
+    int s = 0;
+    if (f != null) {
+        for (int i = 0; i < tab.length; i++) {
+            if (tab[i] != null) {
+                if (tab[i].pere == f || tab[i].mere == f) {
+                    s++;
+                }
+            }
+        }
+    }
+    Individu[] t = new Individu[s];
+    int j = 0;
+    for (int i = 0; i < tab.length; i++) {
+
+        if (tab[i] != null) {
+            if (tab[i].pere == f || tab[i].mere == f) {
+                t[j] = tab[i];
+                j++;
+            }
+        }
+    }
+
+    return t;
+}

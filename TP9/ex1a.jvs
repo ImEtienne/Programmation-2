@@ -1,0 +1,22 @@
+void main() {
+    int n = 2;
+    println("Decroissant : ");
+    afficheNombreDecroissant(n);
+    println();
+    println("Croissant: ");
+    afficheNombreCroissant(n);
+}
+
+void afficheNombreDecroissant(int n) {
+    if (n > 0) {
+        print(n + " ");
+        afficheNombreDecroissant(n - 1);
+    }
+}
+
+void afficheNombreCroissant(int n) {
+    if (0 < n) {
+        afficheNombreCroissant(n - 1);
+        print(n + " ");
+    }
+}

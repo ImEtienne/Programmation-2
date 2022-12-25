@@ -1,0 +1,39 @@
+class Individu {
+    String nom;
+    String prenom;
+
+    Individu pere;
+    Individu mere;
+}
+
+void afficherIndividu(Individu i) {
+    System.out.println(i.nom);
+    System.out.println(i.prenom);
+    System.out.println(i.pere.nom);
+    System.out.println(i.pere.prenom);
+    System.out.println(i.mere.nom);
+    System.out.println(i.mere.prenom);
+}
+
+void afficherFamille(Individu famille[]) {
+    for (int i = 0; i < famille.length; i++) afficherIndividu(famille[i]);
+}
+
+Individu rechercherMembre(Individu famille[], String prenom, String nom) {
+    for (int i = 0; i < famille.length; i++) {
+        if (famille[i] != null
+                && equal(famille[i].prenom, prenom)
+                && equal(famille[i].nom, nom)) return famille[i];
+        if (famille[i] != null
+                && famille[i].pere != null
+                && equal(famille[i].pere.prenom, prenom)
+                && equal(famille[i].pere.nom, nom)) return famille[i].pere;
+        if (famille[i] != null
+                && famille[i].mere != null
+                && equal(famille[i].mere.prenom, prenom)
+                && equal(famille[i].mere.nom, nom)) return famille[i].mere;
+    }
+    return null;
+}
+
+void main() {}

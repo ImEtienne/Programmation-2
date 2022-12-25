@@ -1,0 +1,173 @@
+void main() {}
+
+class Individu {
+    String nom;
+    String prenom;
+    Individu pere;
+    Individu mere;
+}
+
+Individu rechercherMembre(Individu[] famille, String prenom, String nom) {
+    for (int i = 0; i < famille.length; i++) {
+        if (equal(nom, famille[i].nom) && equal(prenom, famille[i].prenom)) {
+            return famille[i];
+        }
+    }
+    return null;
+}
+
+void afficherFamille(Individu[] famille) {
+    for (int i = 0; i < famille.length; i++) {
+        println(i + 1);
+        afficherIndividu(famille[i]);
+        println();
+    }
+}
+
+void afficherIndividu(Individu personne) {
+    print(personne.prenom);
+    println(" " + personne.nom);
+    if (personne.pere != null) {
+        print("Pere : " + personne.pere.prenom);
+        println(" " + personne.pere.nom);
+    }
+    if (personne.mere != null) {
+        print("Mere : " + personne.mere.prenom);
+        println(" " + personne.mere.nom);
+    }
+}
+
+Individu[] creerFamilleSimpson() {
+    Individu[] familleSimpson = new Individu[13];
+    // ABRAHAM SIMSPON
+    familleSimpson[0] = new Individu();
+    familleSimpson[0].nom = "Simpson";
+    familleSimpson[0].prenom = "Abraham";
+    familleSimpson[0].pere = null;
+    familleSimpson[0].mere = null;
+    // MONA OLSEN
+    familleSimpson[1] = new Individu();
+    familleSimpson[1].nom = "Olsen";
+    familleSimpson[1].prenom = "Mona";
+    familleSimpson[1].pere = null;
+    familleSimpson[1].mere = null;
+    // enfants
+    // HERBERT POWEL
+    familleSimpson[2] = new Individu();
+    familleSimpson[2].nom = "Powel";
+    familleSimpson[2].prenom = "Herbert";
+    familleSimpson[2].pere = familleSimpson[0];
+    familleSimpson[2].mere = familleSimpson[1];
+    // HOMER SIMPSON
+    familleSimpson[3] = new Individu();
+    familleSimpson[3].nom = "Simpson";
+    familleSimpson[3].prenom = "Homer";
+    familleSimpson[3].pere = familleSimpson[0];
+    familleSimpson[3].mere = familleSimpson[1];
+
+    // JACQUELINE BOUVIER
+    familleSimpson[4] = new Individu();
+    familleSimpson[4].nom = "Bouvier";
+    familleSimpson[4].prenom = "Jacqueline";
+    familleSimpson[4].pere = null;
+    familleSimpson[4].mere = null;
+    // CLANCY BOUVIER
+    familleSimpson[5] = new Individu();
+    familleSimpson[5].nom = "Bouvier";
+    familleSimpson[5].prenom = "Clancy";
+    familleSimpson[5].pere = null;
+    familleSimpson[5].mere = null;
+    // enfants
+    // SELMA BOUVIER
+    familleSimpson[6] = new Individu();
+    familleSimpson[6].nom = "Bouvier";
+    familleSimpson[6].prenom = "Selma";
+    familleSimpson[6].pere = familleSimpson[4];
+    familleSimpson[6].mere = familleSimpson[5];
+    // PATTY BOUVIER
+    familleSimpson[7] = new Individu();
+    familleSimpson[7].nom = "Bouvier";
+    familleSimpson[7].prenom = "Patty";
+    familleSimpson[7].pere = familleSimpson[4];
+    familleSimpson[7].mere = familleSimpson[5];
+    // MARGE SIMPSON
+    familleSimpson[8] = new Individu();
+    familleSimpson[8].nom = "Simpson";
+    familleSimpson[8].prenom = "Marge";
+    familleSimpson[8].pere = familleSimpson[4];
+    familleSimpson[8].mere = familleSimpson[5];
+
+    // enfants de Marge et Homer
+    // BART SIMPSON
+    familleSimpson[9] = new Individu();
+    familleSimpson[9].nom = "Simpson";
+    familleSimpson[9].prenom = "Bart";
+    familleSimpson[9].pere = familleSimpson[3];
+    familleSimpson[9].mere = familleSimpson[8];
+    // LISA SIMPSON
+    familleSimpson[10] = new Individu();
+    familleSimpson[10].nom = "Simpson";
+    familleSimpson[10].prenom = "Lisa";
+    familleSimpson[10].pere = familleSimpson[3];
+    familleSimpson[10].mere = familleSimpson[8];
+    // MAGGIE SIMPSON
+    familleSimpson[11] = new Individu();
+    familleSimpson[11].nom = "Simpson";
+    familleSimpson[11].prenom = "Maggie";
+    familleSimpson[11].pere = familleSimpson[3];
+    familleSimpson[11].mere = familleSimpson[8];
+
+    // enfant de selma bouvier
+    // LING BOUVIER
+    familleSimpson[12] = new Individu();
+    familleSimpson[12].nom = "Bouvier";
+    familleSimpson[12].prenom = "Ling";
+    familleSimpson[12].pere = null;
+    familleSimpson[12].mere = familleSimpson[6];
+
+    return familleSimpson;
+}
+
+Individu[] parents(Individu personne) {
+    Individu[] tab = new Individu[2];
+    tab[0] = personne.pere;
+    tab[1] = personne.mere;
+    return tab;
+}
+
+Individu[] grandParents(Individu personne) {
+    Individu[] tab = new Individu[4];
+    if (personne.pere != null) {
+        tab[0] = personne.pere.pere;
+        tab[1] = personne.pere.mere;
+        if (personne.mere != null) {
+            tab[2] = personne.mere.pere;
+            tab[3] = personne.mere.mere;
+        } else {
+            return tab;
+        }
+        return tab;
+    } else {
+        if (personne.mere != null) {
+            tab[2] = personne.mere.pere;
+            tab[3] = personne.mere.mere;
+            return tab;
+        }
+    }
+    return tab;
+}
+
+Individu[] mereDeMere4(Individu personne) {
+    Individu[] tab = new Individu[4];
+    int i = 0;
+    while (i < 4) {
+        if (personne != null) {
+            tab[i] = personne.mere;
+            personne = personne.mere;
+        } else {
+            return tab;
+        }
+        i++;
+    }
+    return tab;
+}

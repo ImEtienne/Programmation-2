@@ -1,0 +1,8 @@
+void main(){}
+
+class Individu {
+    String nom;
+    String prenom;
+    Individu pere;
+    Individu mere;
+}
