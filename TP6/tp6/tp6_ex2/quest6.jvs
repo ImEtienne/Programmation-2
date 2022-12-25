@@ -1,0 +1,21 @@
+int compteVote(int[][] vote, int candidat) {
+    int nbrVote = 0;
+
+    for (int i = 0; i < vote.length; i++) if (vote[i][0] == candidat) nbrVote += 1;
+    return nbrVote;
+}
+
+int perdant(int[][] votes, int nbcandidats) {
+    int perdant = 0;
+    int tmp = 100;
+
+    for (int i = 1; i <= nbcandidats; i++)
+        if (compteVote(votes, i) < tmp && compteVote(votes, i) != 0) {
+            tmp = compteVote(votes, i);
+            perdant = i;
+        }
+
+    return perdant;
+}
+
+void main() {}

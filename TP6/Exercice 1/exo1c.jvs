@@ -1,0 +1,12 @@
+void main() {}
+
+boolean prefCorrect(int[][] votes) {
+    for (int i = 0; i < votes.length; i++) {
+        for (int j = 0; j < votes[i].length - 1; j++) {
+            if (votes[i][j] == 0 && votes[i][j + 1] != 0) {
+                return false;
+            }
+        }
+    }
+    return true;
+}

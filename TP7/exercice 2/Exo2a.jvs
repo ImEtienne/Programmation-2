@@ -1,0 +1,26 @@
+void main() {
+    Personne p1 = new Personne();
+    saisirFichePerso(p1);
+    afficherFichePerso(p1);
+}
+
+class Personne {
+    String nom;
+    String prenom;
+    int age;
+    int taille;
+}
+
+void saisirFichePerso(Personne p1) {
+    p1.nom = readString("Nom");
+    p1.prenom = readString("Prenom");
+    p1.age = random(1, 63);
+    p1.taille = readInt("Taille");
+}
+
+void afficherFichePerso(Personne p1) {
+    println(p1.nom);
+    println(p1.prenom);
+    println(p1.age);
+    println(p1.taille);
+}

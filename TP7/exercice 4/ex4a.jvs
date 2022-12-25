@@ -1,0 +1,13 @@
+void main() {}
+
+class Article {
+    String nom;
+    double prix;
+}
+
+Article saisirArticle(String nom, double prix) {
+    Article a = new Article();
+    a.nom = nom;
+    a.prix = prix;
+    return a;
+}

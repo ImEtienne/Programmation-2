@@ -1,0 +1,35 @@
+
+void main(){
+	
+}
+
+void effaceZero(int[][] votes, int nbcandidats)
+{
+	int compteur;
+	for(int i = 1; i<=nbcandidats; i++)
+	{
+		compteur = 0;
+		
+		for(int j = 0; j<votes.length; j++)
+			if(votes[j][0] == i)
+				compteur++;
+				
+		if(compteur == 0)
+			efface(votes, i);
+	}
+}
+
+
+void efface(int[][] votes, int candidat)
+{
+	for(int k = 0; k<votes.length; k++)
+	{
+		for(int i = 0; i<votes[k].length; i++)
+			if(votes[k][i] == candidat)
+			{
+				for(int j = i; j<votes[k].length-1; j++)
+					votes[k][j] = votes[k][j+1];
+				votes[k][votes[k].length-1] = 0;
+			}
+	}
+}

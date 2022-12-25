@@ -1,0 +1,223 @@
+"use strict";
+
+// Description of supported double byte encodings and aliases.
+// Tables are not require()-d until they are needed to speed up library load.
+// require()-s are direct to support Browserify.
+
+module.exports = {
+    
+    // == Japanese/ShiftJIS ====================================================
+    // All japanese encodings are based on JIS X set of standards:
+    // JIS X 0201 - Single-byte encoding of ASCII + ¬• + Kana chars at 0xA1-0xDF.
+    // JIS X 0208 - Main set of 6879 characters, placed in 94x94 plane, to be encoded by 2 bytes. 
+    //              Has several variations in 1978, 1983, 1990 and 1997.
+    // JIS X 0212 - Supplementary plane of 6067 chars in 94x94 plane. 1990. Effectively dead.
+    // JIS X 0213 - Extension and modern replacement of 0208 and 0212. Total chars: 11233.
+    //              2 planes, first is superset of 0208, second - revised 0212.
+    //              Introduced in 2000, revised 2004. Some characters are in Unicode Plane 2 (0x2xxxx)
+
+    // Byte encodings are:
+    //  * Shift_JIS: Compatible with 0201, uses not defined chars in top half as lead bytes for double-byte
+    //               encoding of 0208. Lead byte ranges: 0x81-0x9F, 0xE0-0xEF; Trail byte ranges: 0x40-0x7E, 0x80-0x9E, 0x9F-0xFC.
+    //               Windows CP932 is a superset of Shift_JIS. Some companies added more chars, notably KDDI.
+    //  * EUC-JP:    Up to 3 bytes per character. Used mostly on *nixes.
+    //               0x00-0x7F       - lower part of 0201
+    //               0x8E, 0xA1-0xDF - upper part of 0201
+    //               (0xA1-0xFE)x2   - 0208 plane (94x94).
+    //               0x8F, (0xA1-0xFE)x2 - 0212 plane (94x94).
+    //  * JIS X 208: 7-bit, direct encoding of 0208. Byte ranges: 0x21-0x7E (94 values). Uncommon.
+    //               Used as-is in ISO2022 family.
+    //  * ISO2022-JP: Stateful encoding, with escape sequences to switch between ASCII, 
+    //                0201-1976 Roman, 0208-1978, 0208-1983.
+    //  * ISO2022-JP-1: Adds esc seq for 0212-1990.
+    //  * ISO2022-JP-2: Adds esc seq for GB2313-1980, KSX1001-1992, ISO8859-1, ISO8859-7.
+    //  * ISO2022-JP-3: Adds esc seq for 0201-1976 Kana set, 0213-2000 Planes 1, 2.
+    //  * ISO2022-JP-2004: Adds 0213-2004 Plane 1.
+    //
+    // After JIS X 0213 appeared, Shift_JIS-2004, EUC-JISX0213 and ISO2022-JP-2004 followed, with just changing the planes.
+    //
+    // Overall, it seems that it's a mess :( http://www8.plala.or.jp/tkubota1/unicode-symbols-map2.html
+
+    'shiftjis': {
+        type: '_dbcs',
+        table: function() { return require('./tables/shiftjis.json') },
+        encodeAdd: {'\u00a5': 0x5C, '\u203E': 0x7E},
+        encodeSkipVals: [{from: 0xED40, to: 0xF940}],
+    },
+    'csshiftjis': 'shiftjis',
+    'mskanji': 'shiftjis',
+    'sjis': 'shiftjis',
+    'windows31j': 'shiftjis',
+    'ms31j': 'shiftjis',
+    'xsjis': 'shiftjis',
+    'windows932': 'shiftjis',
+    'ms932': 'shiftjis',
+    '932': 'shiftjis',
+    'cp932': 'shiftjis',
+
+    'eucjp': {
+        type: '_dbcs',
+        table: function() { return require('./tables/eucjp.json') },
+        encodeAdd: {'\u00a5': 0x5C, '\u203E': 0x7E},
+    },
+
+    // TODO: KDDI extension to Shift_JIS
+    // TODO: IBM CCSID 942 = CP932, but F0-F9 custom chars and other char changes.
+    // TODO: IBM CCSID 943 = Shift_JIS = CP932 with original Shift_JIS lower 128 chars.
+
+
+    // == Chinese/GBK ==========================================================
+    // http://en.wikipedia.org/wiki/GBK
+    // We mostly implement W3C recommendation: https://www.w3.org/TR/encoding/#gbk-encoder
+
+    // Oldest GB2312 (1981, ~7600 chars) is a subset of CP936
+    'gb2312': 'cp936',
+    'gb231280': 'cp936',
+    'gb23121980': 'cp936',
+    'csgb2312': 'cp936',
+    'csiso58gb231280': 'cp936',
+    'euccn': 'cp936',
+
+    // Microsoft's CP936 is a subset and approximation of GBK.
+    'windows936': 'cp936',
+    'ms936': 'cp936',
+    '936': 'cp936',
+    'cp936': {
+        type: '_dbcs',
+        table: function() { return require('./tables/cp936.json') },
+    },
+
+    // GBK (~22000 chars) is an extension of CP936 that added user-mapped chars and some other.
+    'gbk': {
+        type: '_dbcs',
+        table: function() { return require('./tables/cp936.json').concat(require('./tables/gbk-added.json')) },
+    },
+    'xgbk': 'gbk',
+    'isoir58': 'gbk',
+
+    // GB18030 is an algorithmic extension of GBK.
+    // Main source: https://www.w3.org/TR/encoding/#gbk-encoder
+    // http://icu-project.org/docs/papers/gb18030.html
+    // http://source.icu-project.org/repos/icu/data/trunk/charset/data/xml/gb-18030-2000.xml
+    // http://www.khngai.com/chinese/charmap/tblgbk.php?page=0
+    'gb18030': {
+        type: '_dbcs',
+        table: function() { return require('./tables/cp936.json').concat(require('./tables/gbk-added.json')) },
+        gb18030: function() { return require('./tables/gb18030-ranges.json') },
+        encodeSkipVals: [0x80],
+        encodeAdd: {'‚Ç¨': 0xA2E3},
+    },
+
+    'chinese': 'gb18030',
+
+
+    // == Korean ===============================================================
+    // EUC-KR, KS_C_5601 and KS X 1001 are exactly the same.
+    'windows949': 'cp949',
+    'ms949': 'cp949',
+    '949': 'cp949',
+    'cp949': {
+        type: '_dbcs',
+        table: function() { return require('./tables/cp949.json') },
+    },
+
+    'cseuckr': 'cp949',
+    'csksc56011987': 'cp949',
+    'euckr': 'cp949',
+    'isoir149': 'cp949',
+    'korean': 'cp949',
+    'ksc56011987': 'cp949',
+    'ksc56011989': 'cp949',
+    'ksc5601': 'cp949',
+
+
+    // == Big5/Taiwan/Hong Kong ================================================
+    // There are lots of tables for Big5 and cp950. Please see the following links for history:
+    // http://moztw.org/docs/big5/  http://www.haible.de/bruno/charsets/conversion-tables/Big5.html
+    // Variations, in roughly number of defined chars:
+    //  * Windows CP 950: Microsoft variant of Big5. Canonical: http://www.unicode.org/Public/MAPPINGS/VENDORS/MICSFT/WINDOWS/CP950.TXT
+    //  * Windows CP 951: Microsoft variant of Big5-HKSCS-2001. Seems to be never public. http://me.abelcheung.org/articles/research/what-is-cp951/
+    //  * Big5-2003 (Taiwan standard) almost superset of cp950.
+    //  * Unicode-at-on (UAO) / Mozilla 1.8. Falling out of use on the Web. Not supported by other browsers.
+    //  * Big5-HKSCS (-2001, -2004, -2008). Hong Kong standard. 
+    //    many unicode code points moved from PUA to Supplementary plane (U+2XXXX) over the years.
+    //    Plus, it has 4 combining sequences.
+    //    Seems that Mozilla refused to support it for 10 yrs. https://bugzilla.mozilla.org/show_bug.cgi?id=162431 https://bugzilla.mozilla.org/show_bug.cgi?id=310299
+    //    because big5-hkscs is the only encoding to include astral characters in non-algorithmic way.
+    //    Implementations are not consistent within browsers; sometimes labeled as just big5.
+    //    MS Internet Explorer switches from big5 to big5-hkscs when a patch applied.
+    //    Great discussion & recap of what's going on https://bugzilla.mozilla.org/show_bug.cgi?id=912470#c31
+    //    In the encoder, it might make sense to support encoding old PUA mappings to Big5 bytes seq-s.
+    //    Official spec: http://www.ogcio.gov.hk/en/business/tech_promotion/ccli/terms/doc/2003cmp_2008.txt
+    //                   http://www.ogcio.gov.hk/tc/business/tech_promotion/ccli/terms/doc/hkscs-2008-big5-iso.txt
+    // 
+    // Current understanding of how to deal with Big5(-HKSCS) is in the Encoding Standard, http://encoding.spec.whatwg.org/#big5-encoder
+    // Unicode mapping (http://www.unicode.org/Public/MAPPINGS/OBSOLETE/EASTASIA/OTHER/BIG5.TXT) is said to be wrong.
+
+    'windows950': 'cp950',
+    'ms950': 'cp950',
+    '950': 'cp950',
+    'cp950': {
+        type: '_dbcs',
+        table: function() { return require('./tables/cp950.json') },
+    },
+
+    // Big5 has many variations and is an extension of cp950. We use Encoding Standard's as a consensus.
+    'big5': 'big5hkscs',
+    'big5hkscs': {
+        type: '_dbcs',
+        table: function() { return require('./tables/cp950.json').concat(require('./tables/big5-added.json')) },
+        encodeSkipVals: [
+            // Although Encoding Standard says we should avoid encoding to HKSCS area (See Step 1 of
+            // https://encoding.spec.whatwg.org/#index-big5-pointer), we still do it to increase compatibility with ICU.
+            // But if a single unicode point can be encoded both as HKSCS and regular Big5, we prefer the latter.
+            0x8e69, 0x8e6f, 0x8e7e, 0x8eab, 0x8eb4, 0x8ecd, 0x8ed0, 0x8f57, 0x8f69, 0x8f6e, 0x8fcb, 0x8ffe,
+            0x906d, 0x907a, 0x90c4, 0x90dc, 0x90f1, 0x91bf, 0x92af, 0x92b0, 0x92b1, 0x92b2, 0x92d1, 0x9447, 0x94ca,
+            0x95d9, 0x96fc, 0x9975, 0x9b76, 0x9b78, 0x9b7b, 0x9bc6, 0x9bde, 0x9bec, 0x9bf6, 0x9c42, 0x9c53, 0x9c62,
+            0x9c68, 0x9c6b, 0x9c77, 0x9cbc, 0x9cbd, 0x9cd0, 0x9d57, 0x9d5a, 0x9dc4, 0x9def, 0x9dfb, 0x9ea9, 0x9eef,
+            0x9efd, 0x9f60, 0x9fcb, 0xa077, 0xa0dc, 0xa0df, 0x8fcc, 0x92c8, 0x9644, 0x96ed,
+
+            // Step 2 of https://encoding.spec.whatwg.org/#index-big5-pointer: Use last pointer for U+2550, U+255E, U+2561, U+256A, U+5341, or U+5345
+            0xa2a4, 0xa2a5, 0xa2a7, 0xa2a6, 0xa2cc, 0xa2ce,
+        ],
+    },
+
+    'cnbig5': 'big5hkscs',
+    'csbig5': 'big5hkscs',
+    'xxbig5': 'big5hkscs',
+};
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   "use strict";
+
+// Update this array if you add/rename/remove files in this directory.
+// We support Browserify by skipping automatic module discovery and requiring modules directly.
+var modules = [
+    require("./internal"),
+    require("./utf32"),
+    require("./utf16"),
+    require("./utf7"),
+    require("./sbcs-codec"),
+    require("./sbcs-data"),
+    require("./sbcs-data-generated"),
+    require("./dbcs-codec"),
+    require("./dbcs-data"),
+];
+
+// Put all encoding/alias/codec definitions to single object and export it.
+for (var i = 0; i < modules.length; i++) {
+    var module = modules[i];
+    for (var enc in module)
+        if (Object.prototype.hasOwnProperty.call(module, enc))
+            exports[enc] = module[enc];
+}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   org/robusta/compiler/JvsFormatter.class•V›sUˇ›6…›l∑B#çiihÅ(RêÑÔ@±5•’@•Ç‚&Ÿ¶€nw√Ó¶Ä|¯Öﬂä¯‚£é3}Üá¥#33/ŒË„ã‚πª	§4LÈ4˜Óû{œ9øÛ;Á‹ª¸˚˚ ;ÒìåêÊ8"£	Ge‡«k2ÇHKÛêÑ◊≈úë1å„aå`T∆xSYé2V‡§Ñ11ø%·îåqº-Ü”b8#·Ô‚¨å˜†r‰¬»£ C√Gëcí!¥W7uw?Cs|ÀC m4Ü›‘éógrö}BÕ$âd¨ºjå©∂.ﬁ´¬Ä;©;3ñ]LÿVÆÏ∏j"oÕîtC≥C≥ŒÄeœ®Æ´Ÿ)Ú4·Ω0D„ô)uVM™YLd][7ã)·õÈÙdOTµ
+¬Ìí≠ÌÁmµT“
+Î¿£ΩAÉ@ú’ß)1¬≠[8z!Øï\›2iM‚=™∫ƒ	ü"‰∫∞ÕW–≠ÑxO˘K>E-u àΩ©	ãawÜÇO-´hh’IË˚Ò$<SC¬SçïÄì™ãŸfÿ˙d+ıº∂f]5?=¨ñº§pËTOST€)Ár÷*€yÕiU}Z∂k
+÷£´JB-T!Î·òV``ÜaÕ„Ñ.ÎFAÄmÕ™„tù∞\´ÎRóƒª¢†ÑsÑBÅç2«¨Ç∏»ÒæÇK∏¨‡
+Æ2Ù>}òŒP!>¢Lü±ú1)T„◊©Çœ9yñ9æP%æ‚¯Z¡7¯ñÍ°A“9Æ+¯ﬂs¸†‡G‹`Ë~b3¨|di$7•Â›E"üÜ˛eC◊ˇ!HWü$[S~7ƒ◊ÊñFE%jRolk‘sKD’¨í¢‰Zµp⁄„MÛ\≠¯√bPMS≥”¢"D#"Õeq±Èê‘Úd›ãÇ§`u…é2Ï[&œ
+ÅŸ˜L—«ás5˛L@ûù’†ó<Ü=ÀÕŸH.3Ô¨W¸]˛¡ƒ∞˘© S wJÜNm◊”H°·π24≥(Nu∫‡ƒÂ‚îsNµ≤£Ò¡ÜN:<ôIùïüTmGsi¶°†M®e√}(Ë¨uGÉÌdjΩËiµ§Ê'5—“3≠cO∫∫AM<oÎ.Qê~¨üÎÄ	sYÌ\Y3Û5y#oÇ◊˙„Ë¢„jtv7[e˜·’Gj£•K±jÍL™v8.SKóƒõa>vY˚á9B7÷—ßã¯k˜ç›Ùñ†ôŒi{Á¡nzÀhyBΩ—€ÄMxëÊ06£«Wf£2…˛∫ç¶q2–úÈ[@`¯6Ç„ÛEx“V˙E¬4T _@À-(¥V–ñ‹∆äÒX`+ì¡»™d(‹VA$…c<≤∫Çˆ§ÿéÜc“ù@·WúäI—é
+¢¸ƒ´ˆc!2Î……—s¬œﬂO24áÓ%õm∏fs~ÎãÖ–±ÄÿZì°[X+vwﬁ§Ë‚.Ó·yäO∞1Ñç+)ˆUh£Á¥£Q⁄µG–Åb8IªsXK˜i'n’7È}ûX∫Kº›#+˜âÀ?âA¡h	-8Ö≥àcŸ<ÇÀËEqûÅã≠Ùƒ…⁄4∂a;$“ì(I/—*ÒåóiU‰‡>v‡¬ŸFˆwí¨â0Õ¶>B‹èü±ª |◊Ò*ˆPÓí§u°‰ñ.‹«^o§ˇ}˚kœ(—…uˇ ¯Ä ÜñÓ„8&gáºB9LpAt4—∑Ì0àØ›aú?˚PK   {ØìO‘:í`  A  .   org/robusta/compiler/RunTimeErrorHandler.classçT›r€D˛6˛YE(qq‚∂&i1äùê∫¿n4ui¡I†	)m˘[ÀGEñå$3} ÓxÆòaòˆ™Ãp„20”‡xÆ(ﬂ i„ê¥E“ÏÓ˘ŸÔúÛù]˝˘œÔ˜ºe‚0NKºfbßMú¡Î&’g,öxoi·m5mÆ8ßÁ%Àz~«¿ªz˚{&Œc≈¿ΩΩa‚"ﬁó∏$qY {Œı›xY UÆl	§WÇ∂#êk∫æ≥÷Ô∂úpSµ<jÚÕ¿Vﬁñ
+]-Ô(”Ò∂	Ã5É∞SÉV?äU’∫=◊s¬ÍïæøÈvùF·%Â∑©´3‡v≤8ZnﬁTﬂ™™ß¸NµqÀvz±¯uùE&ïMóc#±≤øﬁ‘˙ÜÁt?&ñ†O·@Å±®%P‹∫~Á|ﬂı⁄I"¶˜®F"ëäL§CøÒî∞ârUı$>`w$*Ñ‹˙°Ì\tì˙®ˇî∂pGé<&5‚Y¯MâUkXgr+Y¯W,l`ìÕh‹rÏæ.¥î†ój¶ÖO@Ê&u„J~RU©V“⁄´†˘Sçd=b(1^√uâ>”6s’â"’qÀÁXó¯¬¬ó¯J†¸€+ph∑®ı÷M«é¶Ë9Ï8Ò.∑•rÂi¥œ<¡Ã“∏‚©(ZS]‚Mó+˚z_ﬂìﬂP«È|”WèqaÙ@≥ØWÆSméúﬁ}qTØÁ¯mÅÖÚ˛@˚cÔûªŸÚÂ'ôç8xòôÒ∞$í∏ßúDIﬂ‹Tí[Üò\Ìtî˜`¥É]eáAƒ¿Ì†O‚dè—bœ[x˛CÙ3°œ.«"•*g¡93w‚◊ƒ¸«ÏPâé÷Œz«8è„8ûn[H¡†Óó?0vÌRÕ‘“‹ ÈµÖZ∫òæøòI-fŸBÊ'ú,¶Ÿ35YîdÚŸ‰∞¥`,›¡¯wYqÁ¡_Û˘ÒÃ´Û;X˘g(Õ`Â'∏`rè1Gâ°,W∫‰á.S#&ŒøaZWôJ™¨aí£¡w&ﬂk-cg©ØSZ¶|Sº»”ÿ&Åﬂì¬€$Ô.ÈõI~Ï˙FâÙJÕ^ƒâÒ6^¬Àd…ƒœ8âW»j?“∑¬»sÙòEÍSêÛØ
+â~Ç<ü¯õòßíNTˇPK   buÅPKëO*   (                   META-INF/MANIFEST.MF˛   PK   buÅPmqa¢  ‘               p   C.classPK    {ØìOáÕzˇ  £               G  org/robusta/Main.classPK    {ØìOäxï%M  Î               z  org/robusta/macros/Utils.classPK    {ØìO¡/=                   org/robusta/macros/Stdin.classPK    {ØìOô6ë k	  U               |  org/robusta/macros/IO.classPK    {ØìOíÂ„ò˜  ∞                  org/robusta/macros/Stdout.classPK    {ØìOKıÑåé  ¿  "             T  org/robusta/macros/Console$1.classPK    {ØìOâ|'™  w
+                "  org/robusta/macros/Console.classPK    {ØìO˜°g0|  ®  /             
+#  org/robusta/compiler/JavaSourceFromString.classPK    {ØìO€kâàŒ	  Ω  #             ”%  org/robusta/compiler/JarUtils.classPK    {ØìOÃáZÁÉ  %  2             ‚/  org/robusta/compiler/CompilationErrorHandler.classPK    {ØìO0 4È
+  ¶  &             µ4  org/robusta/compiler/JvsCompiler.classPK    {ØìO¡OdÛ  0  '             ‚?  org/robusta/compiler/JvsFormatter.classPK    {ØìO‘:í`  A  .             6E  org/robusta/compiler/RunTimeErrorHandler.classPK      û  ‚H    

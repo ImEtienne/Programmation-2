@@ -1,0 +1,57 @@
+int compteVote(int[][] vote, int candidat) {
+    int nbrVote = 0;
+
+    for (int i = 0; i < vote.length; i++) if (vote[i][0] == candidat) nbrVote += 1;
+    return nbrVote;
+}
+
+int perdant(int[][] votes, int nbcandidats) {
+    int perdant = 0;
+    int tmp = 100;
+
+    for (int i = 1; i <= nbcandidats; i++)
+        if (compteVote(votes, i) < tmp && compteVote(votes, i) != 0) {
+            tmp = compteVote(votes, i);
+            perdant = i;
+        }
+
+    return perdant;
+}
+
+void efface(int[][] votes, int candidat, int electeur) {
+    for (int j = 0; j < votes[electeur].length; j++) {
+        if (votes[electeur][j] == candidat) {
+            for (int i = j; i < votes[electeur].length - 1; i++)
+                votes[electeur][i] = votes[electeur][i + 1];
+            votes[electeur][votes[electeur].length - 1] = 0;
+            break;
+        }
+    }
+}
+
+void efface(int[][] votes, int candidat) {
+    for (int i = 0; i < votes.length; i++) efface(votes, candidat, i);
+}
+
+void effaceZero(int[][] votes, int nbcandidats) {
+    for (int i = 0; i < votes.length; i++)
+        for (int j = 0; j < votes[i].length; j++)
+            if (compteVote(votes, votes[i][j]) == 0) efface(votes, votes[i][j]);
+}
+
+int election(int[][] votes, int nbcandidats) {
+    int gagnant;
+    int checkC = 1;
+
+    effaceZero(votes, nbcandidats);
+
+    for (int i = 0; checkC != 0; i++) {
+        efface(votes, perdant(votes, nbcandidats));
+        checkC = 0;
+        for (int j = 0; j < votes.length; j++) if (votes[j][1] != 0) checkC++;
+    }
+
+    return perdant(votes, nbcandidats);
+}
+
+void main() {}

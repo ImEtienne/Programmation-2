@@ -1,0 +1,11 @@
+void main() {}
+
+int compteVote(int[][] votes, int candidat) {
+    int vote = 0;
+    for (int i = 0; i < votes.length; i++) {
+        if (votes[i][0] == candidat) {
+            vote++;
+        }
+    }
+    return vote;
+}

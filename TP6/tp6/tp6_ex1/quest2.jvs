@@ -1,0 +1,10 @@
+boolean uniquePref(int[][] votes, int candidat) {
+    for (int i = 0; i < votes.length; i++)
+        for (int j = 0; j < votes[i].length; j++)
+            for (int k = 0; k < votes[i].length; k++)
+                if (candidat == votes[i][k] && j != k && votes[i][j] == votes[i][k])
+                    return false;
+    return true;
+}
+
+void main() {}

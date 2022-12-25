@@ -1,0 +1,8 @@
+boolean candidatsEx(int[][] votes, int nbcandidats) {
+    for (int i = 0; i < votes.length; i++)
+        for (int j = 0; j < votes[i].length; j++)
+            if (votes[i][j] < 0 || votes[i][j] > nbcandidats) return false;
+    return true;
+}
+
+void main() {}

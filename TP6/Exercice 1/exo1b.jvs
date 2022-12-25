@@ -1,0 +1,17 @@
+void main() {}
+
+boolean uniquePref(int[][] votes, int candidat) {
+    int compteur = 0;
+    for (int i = 0; i < votes.length; i++) {
+        for (int j = 0; j < votes[i].length; j++) {
+            if (votes[i][j] == candidat) {
+                compteur = compteur + 1;
+            }
+        }
+        if (compteur > 1) {
+            return false;
+        }
+        compteur = 0;
+    }
+    return true;
+}

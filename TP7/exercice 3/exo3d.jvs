@@ -1,0 +1,20 @@
+void main() {}
+
+class Personne {
+    String nom;
+    String prenom;
+    int age;
+    int taille;
+}
+
+int agesPersonnes(Personne[] p) {
+    int somme = 0;
+    int m = 0;
+    for (int i = 0; i < p.length; i++) {
+        somme += p[i].age;
+    }
+    if (p.length != 0) {
+        m = somme / p.length;
+    }
+    return m;
+}

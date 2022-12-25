@@ -1,0 +1,24 @@
+void main() {
+    Article a1 = new Article();
+    afficheArticle(a1);
+}
+
+class Article {
+    String nom;
+    double prix;
+}
+
+Article saisirArticle(String nom, double prix) {
+    Article a = new Article();
+    a.nom = nom;
+    a.prix = prix;
+    return a;
+}
+
+void afficheArticle(Article a) {
+    print("l'article ");
+    print(a.nom);
+    print(" coûte ");
+    print(a.prix);
+    println(" Euros");
+}

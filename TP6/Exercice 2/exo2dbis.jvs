@@ -1,0 +1,10 @@
+void main() {}
+
+void efface(int[][] votes, int candidat, int electeur) {
+    for (int i = 0; i < votes[electeur].length; i++)
+        if (votes[electeur][i] == candidat) {
+            for (int j = i; j < votes[electeur].length - 1; j++)
+                votes[electeur][j] = votes[electeur][j + 1];
+            votes[electeur][votes[electeur].length - 1] = 0;
+        }
+}

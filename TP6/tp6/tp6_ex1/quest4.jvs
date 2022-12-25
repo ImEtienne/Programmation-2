@@ -1,0 +1,33 @@
+boolean candidatsEx(int[][] votes, int nbcandidats) {
+    for (int i = 0; i < votes.length; i++)
+        for (int j = 0; j < votes[i].length; j++)
+            if (votes[i][j] < 0 || votes[i][j] > nbcandidats) return false;
+    return true;
+}
+
+boolean uniquePref(int[][] votes, int candidat) {
+    for (int i = 0; i < votes.length; i++)
+        for (int j = 0; j < votes[i].length; j++)
+            for (int k = 0; k < votes[i].length; k++)
+                if (candidat == votes[i][k] && j != k && votes[i][j] == votes[i][k])
+                    return false;
+    return true;
+}
+
+boolean prefCorrect(int[][] votes) {
+    for (int i = 0; i < votes.length; i++)
+        for (int j = 0; j < votes[i].length; j++)
+            if (votes[i][j] == 0 && j + 1 < votes[i].length && votes[i][j + 1] != 0)
+                return false;
+    return true;
+}
+
+boolean verifieVote(int[][] votes, int nbcandidats) {
+    if (candidatsEx(votes, nbcandidats) && prefCorrect(votes))
+        for (int i = 1; i < nbcandidats + 1; i++)
+            if (!uniquePref(votes, i)) return true;
+            else return true;
+    return false;
+}
+
+void main() {}

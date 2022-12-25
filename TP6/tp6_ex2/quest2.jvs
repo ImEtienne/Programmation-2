@@ -1,0 +1,18 @@
+int compteVote(int[][] votes, int candidat) {
+    int nbrVotes = 0;
+
+    for (int i = 0; i < votes.length; i++) if (votes[i][0] == candidat) nbrVotes += 1;
+    return nbrVotes;
+}
+
+int gagnant(int[][] votes, int nbCandidats) {
+    int gagnant = 0;
+    for (int i = 0; i < votes.length; i++) {
+        if (gagnant < compteVote(votes, i + 1) && compteVote(votes, i + 1) >= nbCandidats)
+            gagnant = i + 1;
+    }
+
+    return gagnant;
+}
+
+void main() {}

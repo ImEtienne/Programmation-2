@@ -1,0 +1,19 @@
+void main() {
+    /*Personne p1 = new Personne();
+    Personne p2 = new Personne();
+    plusGrand(p1, p2);*/
+}
+
+class Personne {
+    String nom;
+    String prenom;
+    int age;
+    int taille;
+}
+
+Personne plusGrand(Personne p1, Personne p2) {
+    if (p1.taille < p2.taille) {
+        return p2;
+    }
+    return p1;
+}

@@ -1,0 +1,24 @@
+void main() {}
+
+int compteVote(int[][] votes, int candidat) {
+    int compteur = 0;
+    for (int i = 0; i < votes.length; i++) {
+        if (votes[i][0] == candidat) {
+            compteur++;
+        }
+    }
+    return compteur;
+}
+
+int gagnant(int[][] votes, int nbcandidats) {
+    int candidat = 1;
+    for (int i = 1; i <= nbcandidats; i++) {
+        if (compteVote(votes, candidat) < compteVote(votes, i)) {
+            candidat = i;
+        }
+        if (compteVote(votes, candidat) > votes.length / 2) {
+            return candidat;
+        }
+    }
+    return 0;
+}
