@@ -1,0 +1,52 @@
+
+void main() {
+        int n = 10000000;
+	int[] tab = new int[n];
+	randomFill(tab);
+	mergeSort(tab,0,tab.length);	
+	println("tableau trié");
+	}
+
+// Algorithme de Tri fusion
+ void mergeSort(int[] tab, int i, int j) {
+   if (j>i+1) {
+        int middle = i+(j-i)/2;
+   	mergeSort(tab, i,middle);
+   	mergeSort(tab, middle, j);
+   	merge(tab,i,middle,j);
+   }
+}
+
+void merge(int [] tab, int i, int k, int j) {
+   int[] tab2 = new int[j-i];
+   int cursorI = i;
+   int cursorK = k;
+   for (int h=0; h<j-i; h++) {
+   	if (cursorI == k) {
+   		tab2[h]=tab[cursorK];
+   		cursorK++;
+   	} else if (cursorK == j){
+   		tab2[h] = tab[cursorI];
+   		cursorI++;
+   	} else if (tab[cursorK]<tab[cursorI]) {
+   		tab2[h] = tab[cursorK];
+   		cursorK++; 
+   	} else {
+   		tab2[h] = tab[cursorI];
+   		cursorI++;
+   	}
+   }
+   //copyback
+   for (int h=0; h<j-i; h++) {
+   	tab[i+h] = tab2[h];
+   }
+   
+}
+
+void randomFill(int[] tab) {
+   for (int i =0; i < tab.length; i ++) {
+      tab[i]=(int)(100*tab.length*Math.random());
+   }
+}
+
+

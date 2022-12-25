@@ -1,0 +1,94 @@
+void main() {
+    clear();
+    int n = 100000;
+    int[] tab1 = new int[n];
+    int[] tab2 = new int[n];
+    // on remplit les deux tableaux de façon aléatoire
+    randomFill(tab1);
+    for (int i = 0; i < n; i++) {
+        tab2[i] = tab1[i];
+    }
+    int m = mergeSort(tab1, 0, tab1.length);
+    println("tableau trié avec tri fusion en " + m + " pas");
+    long c = bubbleSort(tab2);
+    println("tableau trié avec tri bulle en " + c + " pas");
+}
+
+// Algorithme de Tri fusion
+// Le nombre de pas, c'est le nombre de pas de
+int mergeSort(int[] tab, int i, int j) {
+    int pas = 1;
+    if (j > i + 1) {
+        int middle = i + (j - i) / 2;
+        pas = pas + mergeSort(tab, i, middle);
+        pas = pas + mergeSort(tab, middle, j);
+        merge(tab, i, middle, j);
+        pas = pas + (j - i);
+    }
+    return pas;
+}
+
+void merge(int[] tab, int i, int k, int j) {
+    int[] tab2 = new int[j - i];
+    int cursorI = i;
+    int cursorK = k;
+    for (int h = 0; h < j - i; h++) {
+        if (cursorI == k) {
+            tab2[h] = tab[cursorK];
+            cursorK++;
+        } else if (cursorK == j) {
+            tab2[h] = tab[cursorI];
+            cursorI++;
+        } else if (tab[cursorK] < tab[cursorI]) {
+            tab2[h] = tab[cursorK];
+            cursorK++;
+        } else {
+            tab2[h] = tab[cursorI];
+            cursorI++;
+        }
+    }
+    // copyback
+    for (int h = 0; h < j - i; h++) {
+        tab[i + h] = tab2[h];
+    }
+}
+
+void randomFill(int[] tab) {
+    for (int i = 0; i < tab.length; i++) {
+        tab[i] = (int) (100 * tab.length * Math.random());
+    }
+}
+
+long bubbleSort(int[] tab) {
+    int swaps = 1;
+    long pas = 0;
+    while (swaps != 0) {
+        swaps = bubbleSimpleRound(tab);
+        pas = pas + swaps;
+    }
+    return pas;
+}
+
+int bubbleSimpleRound(int[] tab) {
+    int swaps = 0;
+    for (int i = 0; i < tab.length - 1; i++) {
+        if (tab[i] > tab[i + 1]) {
+            swap(tab, i, i + 1);
+            swaps++;
+        }
+    }
+    return swaps;
+}
+
+void swap(int[] tab, int k, int h) {
+    int tmp = tab[k];
+    tab[k] = tab[h];
+    tab[h] = tmp;
+}
+
+boolean testTab(int[] tab) {
+    for (int i = 0; i < tab.length - 1; i++) {
+        if (tab[i] > tab[i + 1]) return false;
+    }
+    return true;
+}
