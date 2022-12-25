@@ -1,0 +1,22 @@
+
+void main() {
+   int[] tab = new int[10];
+   int n;
+   int c = 0;
+   int arret = 0;
+   while (arret == 0) {
+      n = readInt();
+      if (n >= 1 && n <= 10) {
+         tab[n - 1] = 1;
+         c = c + 1;
+         arret=1;
+        for(int i=0; i<tab.length; i=i+1){
+        if (tab[i]==0){
+        	arret=0;
+        }
+         }
+      }
+   }
+   print(c);
+}
+

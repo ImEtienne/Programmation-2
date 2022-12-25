@@ -1,0 +1,6 @@
+void main() {
+    clear();
+    for (int i = 1; i <= 99; i++) {
+        println(i);
+    }
+}

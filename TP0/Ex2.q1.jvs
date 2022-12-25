@@ -1,0 +1,14 @@
+
+void main(){
+	clear();
+	int [] tab = new int [10];
+	int n;
+	int s=0;
+	for(int i=0; i <tab.length; i=i+1){
+		tab[i]=readInt();
+		s = s + tab[i];
+	}
+	print(s);
+	
+	
+}

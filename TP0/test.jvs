@@ -1,0 +1,6 @@
+void main() {
+    clear();
+    for (int i = 77; i >= 33; i = i - 2) {
+        println(i);
+    }
+}
