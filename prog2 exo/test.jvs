@@ -1,0 +1,43 @@
+void main() {
+    int e = 10;
+    int[] tab = new int[10];
+    remplissageTab(tab);
+    int z = somme(tab);
+    int t = sommeRec(tab, e);
+    print("somme du tableau version iterative:  " + z);
+    println();
+    print("somme du tableau version recursive:  " + t);
+    // int x = sommeRec(tab, e);
+    // print(e + " ");
+    // println(x);
+    // f(10);
+}
+
+int sommeRec(int[] tab, int e) {
+    if (e < 0) return 0;
+    return tab[e] + sommeRec(tab, e - 1);
+}
+
+int somme(int[] tab) {
+    int somme = 0;
+    for (int i = 0; i < tab.length; i++) {
+        somme = somme + tab[i];
+    }
+    return somme;
+}
+
+/*void f(int x) {
+    println(x);
+    sleep(200);
+    if (x > 0) {
+        f(x - 1);
+    }
+} */
+
+void remplissageTab(int[] tab) {
+    for (int i = 0; i < tab.length; i++) {
+        tab[i] = 1;
+        print(tab[i] + " ");
+    }
+    println();
+}

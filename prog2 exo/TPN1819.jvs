@@ -1,0 +1,41 @@
+void main() {}
+
+class Ligne {
+    int numero;
+    Station[] parcours;
+}
+
+class Station {
+    String nom;
+    int profondeur;
+    Ligne[] desservies;
+}
+
+boolean dessert(Ligne l, Station s) {
+    for (int i = 1; i < l.parcours.length; i++) {
+        if (s == l.parcours[i]) return true;
+    }
+
+    return false;
+}
+
+Station plusprofonde(Ligne l) {
+    for (int i = 0; i < l.parcours.length; i++) {
+        if (l.parcours[i] == l.parcours[i + 1]) return l.parcours[i];
+    }
+    return null;
+}
+
+void tremblement(Ligne l) {}
+
+Ligne connecte(Station s1, Station s2) {
+    return null;
+}
+
+int distanceDirecte(Station s1, Station s2) {
+    return -1;
+}
+
+boolean nbchangements(Station s1, Station s2, int n) {
+    return false;
+}

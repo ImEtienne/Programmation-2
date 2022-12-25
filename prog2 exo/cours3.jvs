@@ -1,0 +1,61 @@
+void main() {
+    int[] tab = new int[5];
+    while (true) {
+        remplissage(tab);
+        int s = sommeTab(tab);
+        print("La somme est ");
+        println(s);
+        if (isSorted(tab)) {
+            println("Gagné");
+        } else {
+            println("Perdu");
+        }
+        sleep(500);
+    }
+}
+
+void remplissage(int[] tab) {
+    for (int i = 0; i < tab.length; i++) {
+        tab[i] = random(0, 20);
+    }
+}
+
+int fonc(int[] tab) {
+    int resultat;
+    resultat = tab[0] + tab[1];
+    return resultat;
+}
+
+boolean isSorted(int[] tab) {
+    boolean sorted = true;
+    for (int i = 0; i < tab.length - 1; i++) {
+        if (tab[i] > tab[i + 1]) {
+            sorted = false;
+        }
+    }
+    return sorted;
+}
+
+boolean isSorted2(int[] tab) {
+    boolean sorted = true;
+    int i = 0;
+    while (sorted == true && i < tab.length - 1) {
+        if (tab[i] > tab[i + 1]) {
+            sorted = false;
+        }
+        i++;
+    }
+    return sorted;
+}
+
+int somme(int x, int y) {
+    return x + y;
+}
+
+int sommeTab(int[] tab) {
+    int acc = 0;
+    for (int i = 0; i < tab.length; i = i + 1) {
+        acc = acc + tab[i];
+    }
+    return acc;
+}

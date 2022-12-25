@@ -1,0 +1,132 @@
+void main() {
+    int[] tab1 = new int[10];
+    remplissage1(tab1);
+    println("Tableau 1 :");
+    afficheTab1(tab1);
+    int[] tab2 = new int[10];
+    remplissage2(tab2);
+    println("Tableau 2 :");
+    afficheTab2(tab2);
+    println("Tableau 1 triE:");
+    swapTab1(tab1);
+    afficheTab1Trie(tab1);
+    println("Tableau 2 triE:");
+    swapTab1(tab2);
+    afficheTab2Trie(tab2);
+    println("Tableau Union");
+    int taille = tab1.length + tab2.length;
+    int[] tab3 = new int[taille];
+    tableauUnion(tab1, tab2, tab3);
+    afficheTabUnion(tab3);
+    println("Tableau 3 triE:");
+    swapTab3(tab3);
+    afficheTabUnion(tab3);
+}
+
+void remplissage1(int[] tab1) {
+    for (int i = 0; i < tab1.length; i++) {
+        tab1[i] = random(0, 10);
+    }
+}
+
+void remplissage2(int[] tab2) {
+    for (int i = 0; i < tab2.length; i++) {
+        tab2[i] = random(0, 10);
+    }
+}
+
+void afficheTab1(int[] tab1) {
+    for (int i = 0; i < tab1.length; i++) {
+        print(tab1[i] + " ");
+    }
+    println();
+}
+
+void afficheTab2(int[] tab2) {
+    for (int i = 0; i < tab2.length; i++) {
+        print(tab2[i] + " ");
+    }
+    println();
+}
+
+int[] swapTab1(int[] tab1) {
+    boolean estTrie = false;
+    while (!estTrie) {
+        estTrie = true;
+        for (int i = 0; i < tab1.length - 1; i++) {
+            if (tab1[i] > tab1[i + 1]) {
+                int temp = tab1[i];
+                tab1[i] = tab1[i + 1];
+                tab1[i + 1] = temp;
+                estTrie = false;
+            }
+        }
+    }
+    return tab1;
+}
+
+int[] swapTab2(int[] tab2) {
+    boolean estTrie = false;
+    while (!estTrie) {
+        estTrie = true;
+        for (int i = 0; i < tab2.length - 1; i++) {
+            if (tab2[i] > tab2[i + 1]) {
+                int temp = tab2[i];
+                tab2[i] = tab2[i + 1];
+                tab2[i + 1] = temp;
+                estTrie = false;
+            }
+        }
+    }
+    return tab2;
+}
+
+int[] swapTab3(int[] tab3) {
+    boolean estTrie = false;
+    while (!estTrie) {
+        estTrie = true;
+        for (int i = 0; i < tab3.length - 1; i++) {
+            if (tab3[i] > tab3[i + 1]) {
+                int temp = tab3[i];
+                tab3[i] = tab3[i + 1];
+                tab3[i + 1] = temp;
+                estTrie = false;
+            }
+        }
+    }
+    return tab3;
+}
+
+void afficheTab1Trie(int[] tab1) {
+    for (int i = 0; i < tab1.length; i++) {
+        print(tab1[i] + " ");
+    }
+    println();
+}
+
+void afficheTab2Trie(int[] tab2) {
+    for (int i = 0; i < tab2.length; i++) {
+        print(tab2[i] + " ");
+    }
+    println();
+}
+
+int[] tableauUnion(int[] tab1, int[] tab2, int[] tab3) {
+    // int[] tab3 = new int[tab1.length + tab2.length];
+    for (int i = 0; i < tab1.length; i++) {
+        if (tab1[i] > tab3[i]) {
+            tab3[i] = tab1[i];
+        }
+    }
+    for (int j = 0; j < tab1.length && tab2.length + j < tab3.length; j++) {
+        tab3[tab1.length + j] = tab2[j];
+    }
+    return tab3;
+}
+
+void afficheTabUnion(int[] tab3) {
+    for (int i = 0; i < tab3.length; i++) {
+        print(tab3[i] + " ");
+    }
+    println();
+}

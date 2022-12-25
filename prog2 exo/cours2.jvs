@@ -1,0 +1,24 @@
+void main(){
+    int x = 5;
+    {
+        int y = 4;
+    }
+    int z = 45;
+    toto();
+    
+
+}
+
+
+void toto() {
+    int z=67;
+    println (z);
+    titi();
+}
+
+void titi(){
+    int z=56;
+    println(z);
+    sleep(500);
+    
+}

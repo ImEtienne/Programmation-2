@@ -1,0 +1,37 @@
+void main() {
+    Point p1 = new Point();
+    affichePoint(p1);
+    Point p2 = creePoint(1, 2, 3);
+    affichePoint(p2);
+    saisiePoint(p1, 2, 4, 6);
+    affichePoint(p1);
+
+    affichePoint(somme(p1, p2));
+}
+
+class Point {
+    double x, y, z;
+}
+
+Point creePoint(double x, double y, double z) {
+    Point p = new Point();
+    p.x = x;
+    p.y = y;
+    p.z = z;
+    return p;
+}
+
+void saisiePoint(Point p, double x, double y, double z) {
+    p.x = x;
+    p.y = y;
+    p.z = z;
+}
+
+void affichePoint(Point p) {
+    println(" Point de coordonnees : ( " + p.x + ", " + p.y + ", " + p.z + ").");
+}
+
+Point somme(Point p1, Point p2) {
+    Point p = creePoint(p1.x + p2.x, p1.y + p2.y, p1.z + p2.z);
+    return p;
+}

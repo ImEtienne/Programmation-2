@@ -1,0 +1,33 @@
+void main() {
+    int[] notes = new int[10];
+    remplissage(notes);
+    afficheNote(notes);
+    int affiche = totalNotes(notes);
+    println(affiche);
+}
+
+void afficheNote(int[] notes) {
+    for (int i = 0; i < notes.length; i++) {
+        print(notes[i]);
+        print(" ");
+    }
+    println();
+}
+
+void remplissage(int[] notes) {
+    for (int i = 0; i < notes.length; i++) {
+        notes[i] = random(0, 10);
+    }
+}
+
+int totalNotes(int[] notes) {
+    int moyenne = 0;
+    int total = 0;
+    for (int i = 0; i < notes.length; i++) {
+        total = total + notes[i];
+    }
+    if (notes.length != 0) {
+        moyenne = total / notes.length;
+    }
+    return moyenne;
+}
